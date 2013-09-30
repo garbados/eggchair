@@ -87,6 +87,7 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', [
     'build',
+    'images',
     'deploy'
   ]);
 
@@ -94,7 +95,10 @@ module.exports = function(grunt) {
     'jshint',
     'concat',
     'uglify',
-    'cssmin',
+    'cssmin'
+  ]);
+
+  grunt.registerTask('images', [
     'copy',
     'img'
   ]);
