@@ -1,0 +1,35 @@
+{
+  "name": "egg-chair",
+  "version": "0.1.0",
+  "description": "Couchapp for sharing images",
+  "main": "app.js",
+  "dependencies": {
+    "couchapp": "0.10.x",
+    "nano": "~4.0.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-jade": "~0.4.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-couchapp": "git+https://github.com/garbados/grunt-couchapp.git",
+    "grunt-contrib-cssmin": "~0.6.1",
+    "async": "~0.2.9",
+    "grunt-img": "~0.1.7",
+    "grunt-contrib-copy": "~0.4.1",
+    "matchdep": "~0.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/garbados/egg-chair.git"
+  },
+  "author": "garbados",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/garbados/egg-chair/issues"
+  }
+}
