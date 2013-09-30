@@ -14,11 +14,12 @@ Before we begin, you'll need to install these:
 Then get the repo and its dependencies:
 
 	git clone git://github.com/garbados/egg_chair.git
-    cd egg_chair
+  cd egg_chair
 	npm install
 
 Egg Chair copies images from a directory on your computer to its `attachments/imgs` folder. In order to do that, it'll need to know where to copy images from. In `config.json` set `img_dir` accordingly. It defaults to `~/Pictures`.
 
+  cp config.json.example config.json
 	grunt
 
 Now your app is live!
