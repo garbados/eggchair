@@ -14,7 +14,7 @@ angular.module('app', [])
     .success(function(data){
       var _results = data.rows.map(function(item){
         item.timestamp = item.key;
-        item.url = ["img", item.id].join('/');
+        item.url = [apiRoot, item.id, "img"].join('/');
         return item;
       });
       cb(null, _results);
