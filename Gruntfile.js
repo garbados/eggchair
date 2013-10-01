@@ -1,4 +1,4 @@
-var config = require('./config.json'),
+var config = require('./config'),
     path = require('path');
 
 // '~' -> HOME
@@ -14,6 +14,20 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    config: {
+      couchapp: {
+        db: config.db,
+        app: "app.js",
+        options: {
+          okay_if_exists: true,
+          okay_if_missing: true
+        }
+      },
+      img: {
+        src: resolvePath(config.img.src),
+        dest: resolvePath(config.img.dest)
+      }
+    },
     jshint: {
       files: ['src/js/app.js', 'get_imgs.js', 'Gruntfile.js', 'app.js'],
       options: {}
@@ -49,32 +63,32 @@ module.exports = function(grunt) {
       }
     },
     mkcouchdb: {
-      app: config.couchapp
+      app: '<%= config.couchapp %>'
     },
     copy: {
       app: {
         files: [{
           expand: true,
-          cwd: resolvePath('~/Pictures'),
+          cwd: '<%= config.img.src %>',
           src: ['*'],
-          dest: process.cwd() + '/img/'
+          dest: '<%= config.img.dest %>'
         }]
       }
     },
     img: {
       app: {
-        src: 'img',
+        src: '<%= config.img.dest %>',
       }
     },
     sync: {
       app: {
-        min_src: 'img',
-        src: resolvePath('~/Pictures'),
-        db: config.couchapp.db
+        min_src: '<%= config.img.dest %>',
+        src: '<%= config.img.src %>',
+        db: '<%= config.couchapp.db %>'
       }
     },
     couchapp: {
-      app: config.couchapp
+      app: '<%= config.couchapp %>'
     }
   });
 

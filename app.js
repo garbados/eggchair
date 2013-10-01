@@ -1,6 +1,5 @@
 var couchapp = require('couchapp'),
-    path = require('path'),
-    config = require('./config.json');
+    path = require('path');
 
 ddoc = {
   _id: '_design/eggchair',

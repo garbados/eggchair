@@ -1,0 +1,7 @@
+module.exports = {
+  db: 'http://localhost:5984/eggchair',
+  img: {
+    src: '~/Pictures',
+    dest: process.cwd() + '/img/'
+  }
+}

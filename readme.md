@@ -19,17 +19,17 @@ Then get the repo and its dependencies:
 
 Egg Chair copies images from a directory on your computer to its `attachments/imgs` folder. In order to do that, it'll need to know where to copy images from. In `config.json` set `img_dir` accordingly. It defaults to `~/Pictures`.
 
-  cp config.json.example config.json
+  cp config.js.example config.js
 	grunt
 
-Now your app is live!
+Now your app is live at `http://localhost:5984`! If you're using [Cloudant](https://cloudant.com/), change the `db` field in `config.js` to something like `https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_USERNAME.cloudant.com/eggchair`.
 
 ## Configuration
 
-`config.json` contains application settings. Specifically:
+`config.js` contains application settings. Specifically:
 
 * `db`: The remote URL where your Couchapp will get pushed.
-* `img_dir`: Where Egg Chair copies your images from.
+* `img`: Where Egg Chair copies your images from (`src`) and to (`dest`).
 
 ## Permissions
 
