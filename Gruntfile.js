@@ -89,6 +89,20 @@ module.exports = function(grunt) {
     },
     couchapp: {
       app: '<%= config.couchapp %>'
+    },
+    watch: {
+      src: {
+        files: ['src/js/*.js', 'src/css/*.css'],
+        tasks: ['build', 'deploy']
+      },
+      html: {
+        files: ['attachments/*.html'],
+        tasks: ['deploy']
+      },
+      img: {
+        files: '<%= config.img.src %>/*.{png|gif|jpg|jpeg}',
+        tasks: ['images']
+      }
     }
   });
 
@@ -113,14 +127,15 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('images', [
+    'mkcouchdb',
     'copy',
-    'img'
+    'img',
+    'sync'
   ]);
 
   grunt.registerTask('deploy', [
     'mkcouchdb',
-    'couchapp',
-    'sync'
+    'couchapp'
   ]);
 
 };
