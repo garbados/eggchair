@@ -1,14 +1,6 @@
 var config = require('./config'),
     path = require('path');
 
-// '~' -> HOME
-function resolvePath (string) {
-  if (string.substr(0,1) === '~') {
-    string = process.env.HOME + string.substr(1);
-  }
-  return path.resolve(string);
-}
-
 module.exports = function(grunt) {
 
   // Project configuration.
@@ -22,14 +14,10 @@ module.exports = function(grunt) {
           okay_if_exists: true,
           okay_if_missing: true
         }
-      },
-      img: {
-        src: resolvePath(config.img.src),
-        dest: resolvePath(config.img.dest)
       }
     },
     jshint: {
-      files: ['src/js/app.js', 'get_imgs.js', 'Gruntfile.js', 'app.js'],
+      files: ['src/js/app.js', 'Gruntfile.js', 'app.js'],
       options: {}
     },
     concat: {
@@ -65,28 +53,6 @@ module.exports = function(grunt) {
     mkcouchdb: {
       app: '<%= config.couchapp %>'
     },
-    copy: {
-      app: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.img.src %>',
-          src: ['*'],
-          dest: '<%= config.img.dest %>'
-        }]
-      }
-    },
-    img: {
-      app: {
-        src: '<%= config.img.dest %>',
-      }
-    },
-    sync: {
-      app: {
-        min_src: '<%= config.img.dest %>',
-        src: '<%= config.img.src %>',
-        db: '<%= config.couchapp.db %>'
-      }
-    },
     couchapp: {
       app: '<%= config.couchapp %>'
     },
@@ -98,10 +64,6 @@ module.exports = function(grunt) {
       html: {
         files: ['attachments/*.html'],
         tasks: ['deploy']
-      },
-      img: {
-        files: '<%= config.img.src %>/*.{png|gif|jpg|jpeg}',
-        tasks: ['images']
       }
     }
   });
@@ -109,13 +71,9 @@ module.exports = function(grunt) {
   // Load plugins
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  // sync images from config.img_dir
-  grunt.loadTasks('./tasks');
-
   // Default task(s).
   grunt.registerTask('default', [
     'build',
-    'images',
     'deploy'
   ]);
 
@@ -124,13 +82,6 @@ module.exports = function(grunt) {
     'concat',
     'uglify',
     'cssmin'
-  ]);
-
-  grunt.registerTask('images', [
-    'mkcouchdb',
-    'copy',
-    'img',
-    'sync'
   ]);
 
   grunt.registerTask('deploy', [
