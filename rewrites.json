@@ -5,7 +5,7 @@
     "query": {}
 },{
     "from": "/img/:id",
-    "to": "/../../:id/img",
+    "to": "/../../:id/file",
     "query": {},
     "method": "GET"
 },{
@@ -16,9 +16,6 @@
     "from": "/api/*",
     "to": "/../../*",
     "query": {} 
-},{
-    "from": "/images",
-    "to": "_view/timestamp"
 },{
     "from": "/*",
     "to": "/*",

@@ -1,25 +1,40 @@
 angular.module('app', [])
 .constant('chunkSize', 4)
-.constant('groupSize', 50)
-.constant('apiRoot', 'api')
-.factory('getImages', ['$http', 'apiRoot', function($http, apiRoot){
-  return function(cb){
+.constant('groupSize', 20)
+.constant('apiRoot', '_rewrite/api')
+.factory('getImages', ['$http', 'apiRoot', function ($http, apiRoot){
+  return function (cb){
     $http({
-      url: 'images',
+      url: [apiRoot, '_all_docs'].join('/'),
       method: 'GET',
       params: {
-        descending: true
+        include_docs: true
       }
     })
     .success(function(data){
-      var _results = data.rows.map(function(item){
-        item.timestamp = item.key;
-        item.url = [apiRoot, item.id, "img"].join('/');
-        return item;
-      });
+      var _results = data.rows
+        .filter(function (item) {
+          // ignore all design docs and non-images
+          if (item.key.indexOf('_design') === 0) {
+            return false;
+          } else if (item.doc._attachments.file.content_type.indexOf('image') === 0) {
+            return true;
+          }
+        })
+        .map(function (item){
+          var img = {
+            timestamp: item.doc.timestamp,
+            url: [apiRoot, item.id, "file"].join('/')
+          };
+          return img;
+        })
+        .sort(function (a, b) {
+          return b.timestamp - a.timestamp;
+        });
+      console.log(_results);
       cb(null, _results);
     })
-    .error(function(data, status){
+    .error(function (data, status){
       cb([data, status]);
     });
   };

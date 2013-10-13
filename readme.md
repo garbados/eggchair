@@ -2,7 +2,7 @@
 
 Couchapp for sharing images, like Pinterest and Flickr but without the service agreements.
 
-[![Egg Chair](http://upload.wikimedia.org/wikipedia/commons/e/e6/The_Egg_Chair.jpg)](http://en.wikipedia.org/wiki/Egg_\(chair\))
+[![Egg Chair](http://upload.wikimedia.org/wikipedia/commons/e/e6/The_Egg_Chair.jpg)](http://eggchair.maxthayer.org/api/Screen%20Shot%202013-06-19%20at%202.58.19%20PM.png/file)
 
 ## Install
 
@@ -10,6 +10,7 @@ Before we begin, you'll need to install these:
 
 * [node.js](http://nodejs.org/): download and install manually.
 * [grunt](http://gruntjs.com/): `npm install -g grunt-cli`
+* [quilter](http://github.com/garbados/quilt.js): `npm install -g quilter`
 
 Then get the repo and its dependencies:
 
@@ -17,19 +18,14 @@ Then get the repo and its dependencies:
   cd egg_chair
 	npm install
 
-Egg Chair copies images from a directory on your computer to its `attachments/imgs` folder. In order to do that, it'll need to know where to copy images from. In `config.json` set `img_dir` accordingly. It defaults to `~/Pictures`.
+Next, we'll use quilter to map our image directory to wherever we want to host our app:
 
-  cp config.js.example config.js
-	grunt
+  IMG_DIR=~/Pictures
+  REMOTE_DB=http://localhost:5984/eggchair
+  quilt init -m $IMG_DIR -r $REMOTE_DB
+	grunt $REMOTE_DB
 
-Now your app is live at `http://localhost:5984`! If you're using [Cloudant](https://cloudant.com/), change the `db` field in `config.js` to something like `https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_USERNAME.cloudant.com/eggchair`.
-
-## Configuration
-
-`config.js` contains application settings. Specifically:
-
-* `db`: The remote URL where your Couchapp will get pushed.
-* `img`: Where Egg Chair copies your images from (`src`) and to (`dest`).
+Now your app is live at `http://localhost:5984/eggchair`! If you're using [Cloudant](https://cloudant.com/), change the `REMOTE_DB` variable to something like `https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_USERNAME.cloudant.com/eggchair`.
 
 ## Permissions
 
@@ -39,7 +35,7 @@ If you're using CouchDB, open up Futon, go to your app, click "Security", and ma
 
 ## Enabling Pretty URLs with Cloudant
 
-By default, your app will live at some url like `user.cloudant.com/egg_chair/_design/egg_chair/index.html`, but that's not very pretty. To get pretty urls, like [eggchair.maxthayer.org](http://eggchair.maxthayer.org), go to your Cloudant dashboard, and create a Virtual Host pointing from some URL you control, to the `_rewrite_` url of your app, like this:
+By default, your app will live at some url like `user.cloudant.com/egg_chair/_design/egg_chair/_rewrite`, but that's not very pretty. To get pretty urls, like [eggchair.maxthayer.org](http://eggchair.maxthayer.org), go to your Cloudant dashboard, and create a Virtual Host pointing from some URL you control, to the `_rewrite` url of your app, like this:
 
 ![Rewrite screencap](http://eggchair.maxthayer.org/api/Screen%20Shot%202013-06-23%20at%2010.04.52%20PM.png/img)
 
@@ -48,3 +44,5 @@ Use your DNS provider (ex: [namecheap](http://www.namecheap.com/)) to configure 
 ![Sub-domain screencap](http://eggchair.maxthayer.org/api/Screen%20Shot%202013-06-23%20at%2010.06.55%20PM.png/img)
 
 Egg Chair comes with a `rewrites.json` file that takes care of all the URL rewrites. If you want to change the URL structure, change that file.
+
+Finally, to make sure your images show up properly, change the `apiRoot` value in `src/js/app.js` from `_rewrite/api` to `api`. (Yeah, that's a bother, I'm working on it.)
