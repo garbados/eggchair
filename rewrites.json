@@ -9,6 +9,11 @@
     "query": {},
     "method": "GET"
 },{
+    "from": "/api/:id/img",
+    "to": "/../../:id/file",
+    "query": {},
+    "method": "GET"
+},{
     "from": "/api",
     "to": "/../../",
     "query": {} 

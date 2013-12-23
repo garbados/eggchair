@@ -24,7 +24,7 @@ angular.module('app', [])
         .map(function (item){
           var img = {
             timestamp: item.doc.timestamp,
-            url: [apiRoot, item.id, "file"].join('/')
+            url: ['img', item.id].join('/')
           };
           return img;
         })
