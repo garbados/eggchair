@@ -15,17 +15,17 @@ Before we begin, you'll need to install these:
 
 Then get the repo and its dependencies:
 
-	git clone git://github.com/garbados/egg_chair.git
-  cd egg_chair
-	npm install
+  	git clone git://github.com/garbados/egg_chair.git
+    cd egg_chair
+  	npm install
 
 Next, we'll use quilter to map our image directory to wherever we want to host our app:
 
-  IMG_DIR=~/Pictures
-  REMOTE_DB=http://localhost:5984/eggchair
-  quilt push --local $IMG_DIR --remote $REMOTE_DB
-  vi config.js # set `opts.db` in config.js to $REMOTE_DB
-	grunt
+    IMG_DIR=~/Pictures
+    REMOTE_DB=http://localhost:5984/eggchair
+    quilt push --local $IMG_DIR --remote $REMOTE_DB
+    vi config.js # set `opts.db` in config.js to $REMOTE_DB
+  	grunt
 
 Now your app is live at `http://localhost:5984/eggchair/_design/eggchair/_rewrite`! If you're using [Cloudant](https://cloudant.com/), change the `REMOTE_DB` variable to something like `https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_USERNAME.cloudant.com/eggchair`.
 
