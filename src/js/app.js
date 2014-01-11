@@ -24,14 +24,6 @@ var app = angular.module('app', [
 .constant('chunkSize', 4)
 .constant('apiRoot', '_rewrite/api')
 .constant('imgRoot', '_rewrite/img')
-// set some top-level scope thingaroos
-.run([
-  '$rootScope', 
-  function ($rootScope) {
-    $rootScope.title = "eggchair";
-    $rootScope.name = "Max Thayer";
-  }
-])
 // MAIN CONTROLLER :O
 .controller('ImgCtrl', [
   '$scope', 'getImages', 'groupChunk', 'imgRoot',
@@ -55,7 +47,7 @@ var app = angular.module('app', [
     });
   }
 ])
-.factory('getImages', ['$http', 'apiRoot', function ($http, apiRoot){
+.factory('getImages', ['$http', function ($http){
   return function (){
     return $http({
       url: ['_view', 'images'].join('/'),
