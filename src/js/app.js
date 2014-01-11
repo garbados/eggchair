@@ -1,41 +1,68 @@
-angular.module('app', [])
+var app = angular.module('app', [
+  /* 
+    enable these as you need them
+  */
+  // 'ui.bootstrap.accordion',
+  // 'ui.bootstrap.bindHtml',
+  // 'ui.bootstrap.buttons',
+  // 'ui.bootstrap.carousel',
+  // 'ui.bootstrap.collapse',
+  // 'ui.bootstrap.datepicker',
+  // 'ui.bootstrap.dropdownToggle',
+  // 'ui.bootstrap.modal',
+  // 'ui.bootstrap.pagination',
+  // 'ui.bootstrap.popover',
+  // 'ui.bootstrap.position',
+  // 'ui.bootstrap.progressbar',
+  // 'ui.bootstrap.rating',
+  // 'ui.bootstrap.tabs',
+  // 'ui.bootstrap.timepicker',
+  // 'ui.bootstrap.tooltip',
+  // 'ui.bootstrap.transition',
+  // 'ui.bootstrap.typeahead'
+])
 .constant('chunkSize', 4)
-.constant('groupSize', 20)
 .constant('apiRoot', '_rewrite/api')
+.constant('imgRoot', '_rewrite/img')
+// set some top-level scope thingaroos
+.run([
+  '$rootScope', 
+  function ($rootScope) {
+    $rootScope.title = "eggchair";
+    $rootScope.name = "Max Thayer";
+  }
+])
+// MAIN CONTROLLER :O
+.controller('ImgCtrl', [
+  '$scope', 'getImages', 'groupChunk', 'imgRoot',
+  function ($scope, getImages, groupChunk, imgRoot) {
+    getImages()
+    .success(function (res) {
+      var images = res.rows.map(function (image) {
+        image.url = image.src = [imgRoot, image.id].join('/');
+        return image;
+      });
+      
+      var groupchunked = groupChunk(function (image) {
+        var date = new Date(image.key);
+        return new Date(date.getFullYear(), date.getMonth()).getTime();
+      }, images);
+
+      $scope.groups = groupchunked;
+    })
+    .error(function (err) {
+      throw err;
+    });
+  }
+])
 .factory('getImages', ['$http', 'apiRoot', function ($http, apiRoot){
-  return function (cb){
-    $http({
-      url: [apiRoot, '_all_docs'].join('/'),
+  return function (){
+    return $http({
+      url: ['_view', 'images'].join('/'),
       method: 'GET',
       params: {
-        include_docs: true
+        descending: true
       }
-    })
-    .success(function(data){
-      var _results = data.rows
-        .filter(function (item) {
-          // ignore all design docs and non-images
-          if (item.key.indexOf('_design') === 0) {
-            return false;
-          } else if (item.doc._attachments.file.content_type.indexOf('image') === 0) {
-            return true;
-          }
-        })
-        .map(function (item){
-          var img = {
-            timestamp: item.doc.timestamp,
-            url: ['img', item.id].join('/')
-          };
-          return img;
-        })
-        .sort(function (a, b) {
-          return b.timestamp - a.timestamp;
-        });
-      console.log(_results);
-      cb(null, _results);
-    })
-    .error(function (data, status){
-      cb([data, status]);
     });
   };
 }])
@@ -55,34 +82,38 @@ angular.module('app', [])
     return R;
   };
 }])
-// group into X-sized groups
-.factory('group', ['groupSize', function(groupSize){
-  return function(items){
-    var R = [];
-    for (var i = 0; i < items.length; i += groupSize){
-      R.push(items.slice(i, i + groupSize));
-    }
-    return R;
+// group by the value returned by the `getter` function
+.factory('group', function(){
+  return function(getter, items){
+    var groups = {};
+    var groups_sorted = [];
+
+    // group by given field
+    items.forEach(function (item) {
+      var val = getter(item);
+      if (!groups[val]) {
+        groups[val] = [item];
+      } else {
+        groups[val].push(item); 
+      }
+    });
+
+    // convert to array
+    Object.keys(groups).forEach(function (key) {
+      groups_sorted.push(groups[key]);
+    });
+
+    // sort, return
+    return groups_sorted.sort(function (a, b) {
+      return getter(b[0]) - getter(a[0]);
+    });
   };
-}])
-// chunk and group images into proper arrangement
-.factory('formatImages', ['chunk', 'group', function(chunk, group){
-  return function(items){
-    return group(items).map(function(page){
+})
+// chunk and group items using the given `field`
+.factory('groupChunk', ['chunk', 'group', function(chunk, group){
+  return function(getter, items){
+    return group(getter, items).map(function(page){
       return chunk(page);
     });
   };
-}])
-.controller('ImgCtrl', ['$scope', '$location', 'getImages', 'formatImages', function($scope, $location, getImages, formatImages){
-  // set current page
-  $scope.$watch(function(){
-    return parseInt($location.path().slice(1), 10);
-  }, function(path){
-    $scope.i = path || 0;
-  }, true);
-  // get images
-  getImages(function(err, imgs){
-    if (err) throw new Error(err);
-    $scope.imgs = formatImages(imgs);
-  });
 }]);

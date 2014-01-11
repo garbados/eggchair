@@ -12,13 +12,13 @@
         </div>
       </div>
       <div ng-controller="ImgCtrl">
-        <div ng-repeat="page in imgs" class="row">
-          <h2>Page {{ $index + 1}}</h2>
-          <div ng-repeat="column in page" class="span3">
+        <div class="row" ng-repeat="group in groups">
+          <h2>{{ group[0][0].key | date:'MMMM, yyyy' }}</h2>
+          <div class="span3" ng-repeat="chunk in group">
             <ul class="thumbnails">
-              <li ng-repeat="img in column" class="span3">
-                <a href="{{ img.url }}" target="_blank">
-                  <img ng-src="{{ img.url }}">
+              <li ng-repeat="image in chunk">
+                <a ng-href="{{ image.url }}">
+                  <img ng-src="{{ image.src }}">
                 </a>
               </li>
             </ul>
