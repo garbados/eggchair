@@ -1,6 +1,6 @@
 # Egg Chair
 
-Couchapp for sharing images, like Pinterest and Flickr but without the service agreements.
+Couchapp for sharing images from your [Quilt](http://github.com/garbados/quilt.js), like Pinterest and Flickr but without the service agreements.
 
 [![Egg Chair](http://upload.wikimedia.org/wikipedia/commons/e/e6/The_Egg_Chair.jpg)](http://eggchair.maxthayer.org/api/Screen%20Shot%202013-06-19%20at%202.58.19%20PM.png/file)
 
@@ -9,6 +9,7 @@ Couchapp for sharing images, like Pinterest and Flickr but without the service a
 Before we begin, you'll need to install these:
 
 * [node.js](http://nodejs.org/): download and install manually.
+* [couchdb](http://couchdb.apache.org/), or just use [Cloudant](https://cloudant.com/)
 * [grunt](http://gruntjs.com/): `npm install -g grunt-cli`
 * [quilter](http://github.com/garbados/quilt.js): `npm install -g quilter`
 
@@ -22,10 +23,11 @@ Next, we'll use quilter to map our image directory to wherever we want to host o
 
   IMG_DIR=~/Pictures
   REMOTE_DB=http://localhost:5984/eggchair
-  quilt init -m $IMG_DIR -r $REMOTE_DB
-	grunt $REMOTE_DB
+  quilt push --local $IMG_DIR --remote $REMOTE_DB
+  vi config.js # set `opts.db` in config.js to $REMOTE_DB
+	grunt
 
-Now your app is live at `http://localhost:5984/eggchair`! If you're using [Cloudant](https://cloudant.com/), change the `REMOTE_DB` variable to something like `https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_USERNAME.cloudant.com/eggchair`.
+Now your app is live at `http://localhost:5984/eggchair/_design/eggchair/_rewrite`! If you're using [Cloudant](https://cloudant.com/), change the `REMOTE_DB` variable to something like `https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_USERNAME.cloudant.com/eggchair`.
 
 ## Permissions
 
@@ -44,5 +46,3 @@ Use your DNS provider (ex: [namecheap](http://www.namecheap.com/)) to configure 
 ![Sub-domain screencap](http://eggchair.maxthayer.org/api/Screen%20Shot%202013-06-23%20at%2010.06.55%20PM.png/img)
 
 Egg Chair comes with a `rewrites.json` file that takes care of all the URL rewrites. If you want to change the URL structure, change that file.
-
-Finally, to make sure your images show up properly, change the `apiRoot` value in `src/js/app.js` from `_rewrite/api` to `api`. (Yeah, that's a bother, I'm working on it.)
