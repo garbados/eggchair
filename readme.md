@@ -1,5 +1,7 @@
 # Egg Chair
 
+[![Build Status](https://travis-ci.org/garbados/eggchair.svg)](https://travis-ci.org/garbados/eggchair)
+
 Couchapp for sharing images from your [Quilt](http://github.com/garbados/quilt.js), like Pinterest and Flickr but without the service agreements.
 
 [![Egg Chair](http://upload.wikimedia.org/wikipedia/commons/e/e6/The_Egg_Chair.jpg)](http://eggchair.maxthayer.org/api/Screen%20Shot%202013-06-19%20at%202.58.19%20PM.png/file)
