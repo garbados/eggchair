@@ -30,7 +30,7 @@
     "uglify": "./node_modules/.bin/uglifyjs attachments/js/vendor.js attachments/js/templates.js attachments/js/title.js attachments/js/app.js -o attachments/js/app.min.js",
     "cssmin": "./node_modules/.bin/cssmin src/css/bootswatch.min.css > attachments/css/style.min.css",
     "template": "./node_modules/.bin/handlebars src/hbs/*.hbs -e 'hbs' -f attachments/js/templates.js",
-    "start": "npm run-script jshint && npm run-script entitle && npm run-script template && npm run-script concat && npm run-script copy && npm run-script uglify && npm run-script cssmin && npm run-script mkdb && npm run-script deploy",
+    "start": "npm run jshint && npm run entitle && npm run template && npm run concat && npm run copy && npm run uglify && npm run cssmin && npm run mkdb && npm run deploy",
     "sync": "node tasks/sync.js",
     "test": "npm start"
   },
