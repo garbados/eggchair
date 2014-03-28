@@ -70,7 +70,16 @@ ddoc = {
 
         Object.keys(groups).forEach(function (key) {
           var date_parts = key.split('/');
-          var date = new Date(date_parts[0], date_parts[1]);
+          
+          var date;
+          var year = parseInt(date_parts[0]);
+          var month = parseInt(date_parts[1]);
+          if (date_parts[1] !== 11) {
+            date = new Date(year, month + 1);
+          } else {
+            date = new Date(year + 1);
+          }
+          
           var images = groups[key].map(function (image) {
             return image.url;
           });
@@ -100,7 +109,6 @@ ddoc = {
         row = getRow();
       }
 
-      images.reverse();
       var groups = group_by_date(images);
       send(JSON.stringify(groups));
     }

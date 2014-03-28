@@ -1,6 +1,8 @@
 {{#groups}}
   <div class="row">
-    <h2>{{ date }}</h2>
+    <h2>
+      <a href="?startkey=-{{ timestamp }}">{{ date }}</a>
+    </h2>
     {{#chunks}}
     <div class="span3">
       <ul class="thumbnails">
