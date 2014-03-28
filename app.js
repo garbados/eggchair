@@ -3,7 +3,6 @@ var couchapp = require('couchapp'),
 
 ddoc = {
   _id: '_design/eggchair',
-  rewrites: require('./rewrites.json'),
   views: {
     images: {
       map: function (doc) {
@@ -19,7 +18,36 @@ ddoc = {
     }
   },
   lists: {},
-  shows: {}
+  shows: {},
+  rewrites: [{
+      "from": "",
+      "to": "index.html",
+      "method": "GET",
+      "query": {}
+  },{
+      "from": "/img/:id",
+      "to": "/../../:id/file",
+      "query": {},
+      "method": "GET"
+  },{
+      "from": "/api/:id/img",
+      "to": "/../../:id/file",
+      "query": {},
+      "method": "GET"
+  },{
+      "from": "/api",
+      "to": "/../../",
+      "query": {} 
+  },{
+      "from": "/api/*",
+      "to": "/../../*",
+      "query": {} 
+  },{
+      "from": "/*",
+      "to": "/*",
+      "method": "GET",
+      "query": {}
+  }]
 };
 
 couchapp.loadAttachments(ddoc, path.join(__dirname, 'attachments'));

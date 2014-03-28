@@ -1,0 +1,30 @@
+{
+  "name": "eggchair",
+  "version": "0.0.0",
+  "homepage": "https://github.com/garbados/egg_chair",
+  "authors": [
+    "Max Thayer <garbados@gmail.com>"
+  ],
+  "description": "Couchapp for sharing images",
+  "main": "index.js",
+  "keywords": [
+    "couchdb",
+    "images",
+    "angular",
+    "img",
+    "image",
+    "host",
+    "cloudant"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.15"
+  }
+}
