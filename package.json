@@ -13,7 +13,8 @@
     "couchapp": "~0.10.0",
     "cssmin": "~0.4.1",
     "uglify-js": "~2.4.13",
-    "prompt": "~0.2.12"
+    "prompt": "~0.2.12",
+    "bower": "~1.3.1"
   },
   "scripts": {
     "jshint": "./node_modules/.bin/jshint src/js/app.js app.js",
@@ -22,8 +23,8 @@
     "mkdb": "node tasks/mkdb.js",
     "concat": "rm attachments/js/app.js; cat bower_components/angular/angular.js src/js/app.js >> attachments/js/app.js",
     "uglify": "./node_modules/.bin/uglifyjs attachments/js/app.js -o attachments/js/app.min.js",
-    "cssmin": "./node_modules/.bin/cssmin attachments/css/style.css > attachments/css/style.min.css",
-    "start": "npm run-script jshint && npm run-script concat && npm run-script uglify && npm run-script cssmin && npm run-script mkdb && npm run-script deploy",
+    "cssmin": "./node_modules/.bin/cssmin src/css/bootswatch.min.css > attachments/css/style.min.css",
+    "start": "./node_modules/.bin/bower install && npm run-script jshint && npm run-script concat && npm run-script uglify && npm run-script cssmin && npm run-script mkdb && npm run-script deploy",
     "test": "npm start"
   },
   "repository": {
