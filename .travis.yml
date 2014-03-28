@@ -6,3 +6,6 @@ node_js:
 
 services:
   - couchdb
+
+install:
+  - npm run setup
