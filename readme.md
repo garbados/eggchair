@@ -2,9 +2,7 @@
 
 [![Build Status](https://travis-ci.org/garbados/eggchair.svg)](https://travis-ci.org/garbados/eggchair)
 
-Couchapp for sharing images from your [Quilt](http://github.com/garbados/quilt.js), like Pinterest and Flickr but without the service agreements.
-
-[![Egg Chair](http://upload.wikimedia.org/wikipedia/commons/e/e6/The_Egg_Chair.jpg)](http://eggchair.maxthayer.org/api/Screen%20Shot%202013-06-19%20at%202.58.19%20PM.png/file)
+An open-source image host, built using CouchDB. It's like Pinterest and Flickr, but without the service agreements.
 
 ## Install
 
@@ -12,8 +10,6 @@ Before we begin, you'll need to install these:
 
 * [node.js](http://nodejs.org/): download and install manually.
 * [couchdb](http://couchdb.apache.org/), or just use [Cloudant](https://cloudant.com/)
-* [grunt](http://gruntjs.com/): `npm install -g grunt-cli`
-* [quilter](http://github.com/garbados/quilt.js): `npm install -g quilter`
 
 Then get the repo and its dependencies:
 
@@ -21,16 +17,25 @@ Then get the repo and its dependencies:
     cd eggchair
   	npm install
 
-Next, we'll use quilter to map our image directory to wherever we want to host our app:
+Next, we'll deploy our eggchair app to a CouchDB or Cloudant instance:
 
-    quilt push --local $IMG_DIR --remote $REMOTE_DB
-  	npm start
+    npm start
 
-Now your app is live at `http://localhost:5984/eggchair/_design/eggchair/_rewrite`! If you're using [Cloudant](https://cloudant.com/), change the `REMOTE_DB` variable to something like `https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_USERNAME.cloudant.com/eggchair`, and run `npm run-script config` to set it appropriately for eggchair too. (N.B. This inconvenience will be resolved shortly.)
+Then, we'll use quilter to map our image directory to wherever we want to host our app:
+
+    npm run-script sync
+
+Now your app is live at `http://localhost:5984/eggchair/_design/eggchair/_rewrite`! By default, it contains all the images in your `~/Pictures` folder. To modify where eggchair syncs images from and deploys the app to, do this:
+
+    npm run-script config
+
+If you're using [Cloudant](https://cloudant.com/), change the `REMOTE_DB` variable to something like `https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_USERNAME.cloudant.com/eggchair`.
+
+If you want to sync your images whenever you add new ones, check out the [quilter](https://github.com/garbados/quilter) project. It's what `npm run-script sync` uses behind the scenes.
 
 ## Permissions
 
-If you're using Cloudant, head to the permissions dashboard for your app and check "Read" for the row "Everyone else". This lets you share your images with the world.
+If you're using Cloudant, head to the permissions dashboard for your eggchair database and check "Read" for the row "Everyone else". This lets you share your images with the world.
 
 If you're using CouchDB, open up Futon, go to your app, click "Security", and make sure under "Members" that "Names" is `[]` but "Roles" is `["reader"]`. That makes it publicly readable.
 

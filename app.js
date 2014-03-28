@@ -19,35 +19,7 @@ ddoc = {
   },
   lists: {},
   shows: {},
-  rewrites: [{
-      "from": "",
-      "to": "index.html",
-      "method": "GET",
-      "query": {}
-  },{
-      "from": "/img/:id",
-      "to": "/../../:id/file",
-      "query": {},
-      "method": "GET"
-  },{
-      "from": "/api/:id/img",
-      "to": "/../../:id/file",
-      "query": {},
-      "method": "GET"
-  },{
-      "from": "/api",
-      "to": "/../../",
-      "query": {} 
-  },{
-      "from": "/api/*",
-      "to": "/../../*",
-      "query": {} 
-  },{
-      "from": "/*",
-      "to": "/*",
-      "method": "GET",
-      "query": {}
-  }]
+  rewrites: require('./rewrites.json')
 };
 
 couchapp.loadAttachments(ddoc, path.join(__dirname, 'attachments'));
