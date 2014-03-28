@@ -3,4 +3,4 @@ node_modules/
 attachments/css/*.css
 attachments/js/*.js
 img/
-config.js
+config.json
