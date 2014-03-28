@@ -1,12 +1,18 @@
 {{#groups}}
   <div class="row">
     <h2>{{ date }}</h2>
-    {{#images}}
+    {{#chunks}}
     <div class="span3">
-      <a href="{{ this }}" class="img-responsive" target="_blank">
-        <img src="{{ this }}">
-      </a>
+      <ul class="thumbnails">
+        {{#images}}
+        <li class="span3 text-center">
+          <a href="{{ this }}" target="_blank">
+            <img src="{{ this }}" style="max-height:200px;">
+          </a>
+        </li>
+        {{/images}}
+      </ul>
     </div>
-    {{/images}}
+    {{/chunks}}
   </div>
 {{/groups}}

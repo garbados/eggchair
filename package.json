@@ -19,16 +19,18 @@
     "handlebars": "~1.3.0"
   },
   "scripts": {
-    "setup": "npm install && bower install",
+    "setup": "npm install && ./node_modules/.bin/bower install",
     "jshint": "./node_modules/.bin/jshint src/js/app.js app.js",
     "config": "node tasks/config.js",
     "deploy": "node tasks/deploy.js",
     "mkdb": "node tasks/mkdb.js",
-    "concat": "rm attachments/js/app.js; cat bower_components/jquery/dist/jquery.js bower_components/handlebars/handlebars.js attachments/js/templates.js src/js/app.js >> attachments/js/app.js",
-    "uglify": "./node_modules/.bin/uglifyjs attachments/js/vendor.js attachments/js/templates.js attachments/js/app.js -o attachments/js/app.min.js",
+    "entitle": "node tasks/entitle.js > attachments/js/title.js",
+    "concat": "rm attachments/js/vendor.js; cat bower_components/jquery/dist/jquery.js bower_components/handlebars/handlebars.js >> attachments/js/vendor.js",
+    "copy": "cp src/js/app.js attachments/js/app.js",
+    "uglify": "./node_modules/.bin/uglifyjs attachments/js/vendor.js attachments/js/templates.js attachments/js/title.js attachments/js/app.js -o attachments/js/app.min.js",
     "cssmin": "./node_modules/.bin/cssmin src/css/bootswatch.min.css > attachments/css/style.min.css",
-    "template": "./node_modules/.bin/handlebars src/hbs/*.hbs > attachments/js/templates.js",
-    "start": "npm run-script jshint && npm run-script template && npm run-script concat && npm run-script uglify && npm run-script cssmin && npm run-script mkdb && npm run-script deploy",
+    "template": "./node_modules/.bin/handlebars src/hbs/*.hbs -e 'hbs' -f attachments/js/templates.js",
+    "start": "npm run-script jshint && npm run-script entitle && npm run-script template && npm run-script concat && npm run-script copy && npm run-script uglify && npm run-script cssmin && npm run-script mkdb && npm run-script deploy",
     "sync": "node tasks/sync.js",
     "test": "npm start"
   },

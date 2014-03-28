@@ -1,4 +1,6 @@
 {
+  "title": "Egg Chair",
+  "subtitle": "Open-source image hosting",
   "db": "http://localhost:5984/eggchair",
   "src": "~/Pictures"
 }

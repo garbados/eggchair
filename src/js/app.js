@@ -1,6 +1,24 @@
-function eggchair () {
-  var apiRoot = '_rewrite';
-  var imgRoot = '_rewrite/img';
+function eggchair (config) {
+  var pathRoot = (location.pathname.indexOf('_rewrite') === -1) ? '' : '_rewrite';
+  var apiRoot = pathRoot;
+  var imgRoot = pathRoot ? pathRoot + '/img' : 'img';
+  var chunkSize = 4;
+  var header = config.header;
+
+  var months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
 
   function format_res (res) {
     return res.rows.map(function (row) {
@@ -9,6 +27,20 @@ function eggchair () {
         date: new Date(row.key)
       };
     });
+  }
+
+  function chunk (items){
+    var R = [],
+        rem;
+    for (var i = 0; i < items.length; i++) {
+      rem = i % chunkSize;
+      if (R[rem]) {
+        R[rem].push(items[i]);
+      } else {
+        R[rem] = [items[i]];
+      }
+    }
+    return R;
   }
 
   function group_by_date (images) {
@@ -29,11 +61,18 @@ function eggchair () {
     Object.keys(groups).forEach(function (key) {
       var date_parts = key.split('/');
       var date = new Date(date_parts[0], date_parts[1]);
+      var images = groups[key].map(function (image) {
+        return image.url;
+      });
       
       groups_sorted.push({
-        date: date,
+        date: [months[date_parts[1]], date_parts[0]].join(', '),
         timestamp: date.getTime(),
-        images: groups[key]
+        chunks: chunk(images).map(function (image_chunk) {
+          return {
+            images: image_chunk
+          };
+        })
       });
     });
 
@@ -56,19 +95,19 @@ function eggchair () {
     });
   }
 
-  function render_templates (header, groups) {
+  function render_templates (groups) {
     load_images(function (groups) {
-      var header_template = Handlebars.templates['title.hbs'](header);
+      var header_template = Handlebars.templates.title(header);
       $('#title').html(header_template);
 
-      var groups_template = Handlebars.templates['list.hbs']({ groups: groups });
+      var groups_template = Handlebars.templates.list({ groups: groups });
       $('#images').html(groups_template);
     });
   }
 
-  load_images(render_templates.bind(null, {
-    title: 'eggchair'
-  }));
+  load_images(render_templates);
 }
 
-$(eggchair);
+$(eggchair.bind(null, {
+  header: header
+}));

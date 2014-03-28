@@ -3,6 +3,16 @@ var prompt = require('prompt');
 
 var schema = {
   properties: {
+    title: {
+      message: 'Title for your eggchair',
+      default: 'Egg Chair',
+      required: true
+    },
+    subtitle: {
+      message: 'Subtitle for your eggchair',
+      default: 'Open-source image hosting',
+      required: true
+    },
     db: {
       message: "URL for your CouchDB / Cloudant database",
       default: "http://localhost:5984/eggchair",
