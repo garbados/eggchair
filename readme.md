@@ -15,8 +15,8 @@ Before we begin, you'll need to install these:
 
 Then get the repo and its dependencies:
 
-  	git clone git://github.com/garbados/egg_chair.git
-    cd egg_chair
+  	git clone git://github.com/garbados/eggchair.git
+    cd eggchair
   	npm install
 
 Next, we'll use quilter to map our image directory to wherever we want to host our app:
@@ -37,7 +37,7 @@ If you're using CouchDB, open up Futon, go to your app, click "Security", and ma
 
 ## Enabling Pretty URLs with Cloudant
 
-By default, your app will live at some url like `user.cloudant.com/egg_chair/_design/egg_chair/_rewrite`, but that's not very pretty. To get pretty urls, like [eggchair.maxthayer.org](http://eggchair.maxthayer.org), go to your Cloudant dashboard, and create a Virtual Host pointing from some URL you control, to the `_rewrite` url of your app, like this:
+By default, your app will live at some url like `user.cloudant.com/eggchair/_design/eggchair/_rewrite`, but that's not very pretty. To get pretty urls, like [eggchair.maxthayer.org](http://eggchair.maxthayer.org), go to your Cloudant dashboard, and create a Virtual Host pointing from some URL you control, to the `_rewrite` url of your app, like this:
 
 ![Rewrite screencap](http://eggchair.maxthayer.org/api/Screen%20Shot%202013-06-23%20at%2010.04.52%20PM.png/img)
 
