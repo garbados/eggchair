@@ -15,7 +15,7 @@ Then get the repo and its dependencies:
 
   	git clone git://github.com/garbados/eggchair.git
     cd eggchair
-  	npm install
+  	npm run setup
 
 Next, we'll deploy our eggchair app to a CouchDB or Cloudant instance:
 
@@ -23,11 +23,11 @@ Next, we'll deploy our eggchair app to a CouchDB or Cloudant instance:
 
 Then, we'll use quilter to map our image directory to wherever we want to host our app:
 
-    npm run-script sync
+    npm run sync
 
 Now your app is live at `http://localhost:5984/eggchair/_design/eggchair/_rewrite`! By default, it contains all the images in your `~/Pictures` folder. To modify where eggchair syncs images from and deploys the app to, do this:
 
-    npm run-script config
+    npm run config
 
 If you're using [Cloudant](https://cloudant.com/), change the `REMOTE_DB` variable to something like `https://YOUR_USERNAME:YOUR_PASSWORD@YOUR_USERNAME.cloudant.com/eggchair`.
 
