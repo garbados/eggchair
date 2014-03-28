@@ -10,5 +10,5 @@ if (config) {
   delete config.db;
   delete config.src;
 
-  fs.writeFile('attachments/js/title.js', 'var header = ' + JSON.stringify(config));
+  fs.writeFile('attachments/js/title.js', 'var header = ' + JSON.stringify(config) + ';');
 }
