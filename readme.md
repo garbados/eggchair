@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/garbados/eggchair.svg)](https://travis-ci.org/garbados/eggchair)
 
-An open-source image host, built using CouchDB. It's like Pinterest and Flickr, but without the service agreements.
+An open-source image host, built using CouchDB. It's like Pinterest and Flickr, but without the service agreements. For a demo, check out [my eggchair](http://eggchair.maxthayer.org/).
 
 ## Install
 
