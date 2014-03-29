@@ -4,18 +4,59 @@ function eggchair (config) {
   var imgRoot = pathRoot ? pathRoot + '/img' : 'img';
   var header = config.header;
 
+  var months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
+  Handlebars.registerHelper('date', function (options) {
+    var date;
+    if (this.timestamp) {
+      date = new Date(this.timestamp - 1);
+    } else {
+      date = new Date(this);  
+    }
+    
+    return months[date.getMonth()] + ', ' + date.getFullYear();
+  });
+
   function load_images (search, done) {
     var url = apiRoot + '/_list/groupchunk/images';
     search = search || location.search;
     $.getJSON(url + search, done);
   }
 
-  function render_templates (groups) {
-    // render header
+  function load_dates (done) {
+    var url = apiRoot + '/_view/dates?group=true&descending=true';
+    $.getJSON(url, function (json) {
+      var results = json.rows.map(function (row) {
+        return row.key;
+      });
+      done(results);
+    });
+  }
+
+  function render_header () {
     var header_template = Handlebars.templates.title(header);
     $('#title').html(header_template);
+  }
 
-    // render images
+  function render_nav (dates) {
+    var nav_template = Handlebars.templates.nav(dates);
+    $('#nav').html(nav_template);
+  }
+
+  function render_images (groups) {
     var page = 0;
     var padding = 200;
 
@@ -37,9 +78,14 @@ function eggchair (config) {
     });
   }
 
-  load_images(null, render_templates);
+  return function () {
+    render_header();
+    load_images(null, render_images);
+    load_dates(render_nav);
+  };
 }
 
-$(eggchair.bind(null, {
+var main = eggchair({
   header: header || {}
-}));
+});
+$(main);

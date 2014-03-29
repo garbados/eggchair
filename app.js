@@ -12,25 +12,29 @@ ddoc = {
           emit(-doc.timestamp, null);
         }
       }
+    },
+    dates: {
+      map: function (doc) {
+        if (doc.timestamp) {
+          var date = new Date(doc.timestamp);
+
+          // give a timestamp for the dawn of the next month
+          var group_date;
+          if (date.getMonth() !== 11) {
+            group_date = new Date(date.getFullYear(), date.getMonth() + 1);
+          } else {
+            group_date = new Date(date.getFullYear() + 1);
+          }
+
+          emit(group_date.getTime() - 1, null);
+        }
+      },
+      reduce: '_count'
     }
   },
   lists: {
     groupchunk: function (head, req) {
-      var chunkSize = req.query.chunkSize || 4;
-      var months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-      ];
+      var chunkSize = req.query.chunkSize || 5;
 
       function format_row (row) {
         return {
@@ -85,7 +89,6 @@ ddoc = {
           });
           
           groups_sorted.push({
-            date: [months[date_parts[1]], date_parts[0]].join(', '),
             timestamp: date.getTime(),
             chunks: chunk(images).map(function (image_chunk) {
               return {
