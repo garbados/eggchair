@@ -4,24 +4,40 @@ function eggchair (config) {
   var imgRoot = pathRoot ? pathRoot + '/img' : 'img';
   var header = config.header;
 
-  function load_images (done) {
-    var url = [apiRoot, '_list', 'groupchunk', 'images'].join('/');
-    $.getJSON(url + location.search, done);
+  function load_images (search, done) {
+    var url = apiRoot + '/_list/groupchunk/images';
+    search = search || location.search;
+    $.getJSON(url + search, done);
   }
 
   function render_templates (groups) {
+    // render header
     var header_template = Handlebars.templates.title(header);
     $('#title').html(header_template);
 
-    var groups_template = Handlebars.templates.list({ 
-      groups: groups,
-      imgRoot: imgRoot
-    });
+    // render images
+    var page = 0;
+    var padding = 200;
 
-    $('#images').html(groups_template);
+    function next_page () {
+      var group = groups[page];
+      if (group) {
+        group.imgRoot = imgRoot;
+        var groups_template = Handlebars.templates.list(group);
+        $('#images').append(groups_template);
+        page += 1; 
+      }
+    }
+
+    next_page();
+    $(window).scroll(function() {
+      if($(window).scrollTop() + $(window).height() >= $(document).height() - padding) {
+        next_page();
+      }
+    });
   }
 
-  load_images(render_templates);
+  load_images(null, render_templates);
 }
 
 $(eggchair.bind(null, {

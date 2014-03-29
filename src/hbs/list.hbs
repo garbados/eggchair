@@ -1,20 +1,18 @@
-{{#groups}}
-  <div class="row">
-    <h2>
-      <a href="?startkey=-{{ timestamp }}">{{ date }}</a>
-    </h2>
-    {{#chunks}}
-    <div class="span3">
-      <ul class="thumbnails">
-        {{#images}}
-        <li class="span3 text-center">
-          <a href="{{ ../../../imgRoot }}/{{ this }}" target="_blank">
-            <img src="{{ ../../../imgRoot }}/{{ this }}" style="max-height:200px;">
-          </a>
-        </li>
-        {{/images}}
-      </ul>
-    </div>
-    {{/chunks}}
+<div class="row ">
+  <h2>
+    <a href="?startkey=-{{ timestamp }}" class="next">{{ date }}</a>
+  </h2>
+  {{#chunks}}
+  <div class="span3">
+    <ul class="thumbnails">
+      {{#images}}
+      <li class="span3 text-center">
+        <a href="{{ ../../imgRoot }}/{{ this }}" target="_blank">
+          <img src="{{ ../../imgRoot }}/{{ this }}" style="max-height:200px;">
+        </a>
+      </li>
+      {{/images}}
+    </ul>
   </div>
-{{/groups}}
+  {{/chunks}}
+</div>
