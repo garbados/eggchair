@@ -23,7 +23,7 @@ ddoc = {
           if (date.getMonth() !== 11) {
             group_date = new Date(date.getFullYear(), date.getMonth() + 1);
           } else {
-            group_date = new Date(date.getFullYear() + 1);
+            group_date = new Date(date.getFullYear() + 1, 0);
           }
 
           emit(group_date.getTime() - 1, null);
@@ -81,7 +81,7 @@ ddoc = {
           if (date_parts[1] !== 11) {
             date = new Date(year, month + 1);
           } else {
-            date = new Date(year + 1);
+            date = new Date(year + 1, 0);
           }
           
           var images = groups[key].map(function (image) {
